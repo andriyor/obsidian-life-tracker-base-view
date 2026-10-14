@@ -86,7 +86,9 @@ export {
     getTimeFrameDateRange,
     isDateInTimeFrame,
     setWeekStartDay,
-    getWeekStartDay
+    getWeekStartDay,
+    isWeekStartDay,
+    WEEK_START_DAYS
 } from './date.utils'
 export type { TimeFrameDateRange, WeekStartDay } from './date.utils'
 

@@ -73,7 +73,7 @@ export interface PluginSettings {
 
     /**
      * First day of the week for week grouping and heatmap columns.
-     * 0 = Sunday, 1 = Monday. Defaults to Monday (issue #99).
+     * 0 = Sunday, 1 = Monday, 6 = Saturday. Defaults to Monday (issues #99, #162).
      */
     weekStartsOn: WeekStartDay
 

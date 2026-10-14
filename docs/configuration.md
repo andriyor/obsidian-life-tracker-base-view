@@ -32,8 +32,8 @@ your own encoding of what each value means, so they are left untouched.
 
 ### First Day of the Week
 
-In the **Dates** section. Choose whether weeks start on **Monday** (default) or
-**Sunday**. Affects weekly grouping, heatmap week columns, and the "this week" /
+In the **Dates** section. Choose whether weeks start on **Monday** (default),
+**Sunday** or **Saturday**. Affects weekly grouping, heatmap week columns, and the "this week" /
 "last week" time frames. ISO week labels (`YYYY-Www` filenames, week numbers)
 stay Monday-based.
 

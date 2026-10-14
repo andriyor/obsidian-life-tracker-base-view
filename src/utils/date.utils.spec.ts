@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'bun:test'
+import { afterEach, describe, expect, test } from 'bun:test'
 import {
     isValidDate,
     getISOWeekNumber,
@@ -21,7 +21,9 @@ import {
     formatNowForInput,
     formatDateISO,
     formatDateByGranularity,
-    getMonthName
+    getMonthName,
+    setWeekStartDay,
+    isWeekStartDay
 } from './date.utils'
 import { TimeGranularity } from '../app/types'
 
@@ -376,5 +378,39 @@ describe('formatNowForInput (issue #106)', () => {
     test('the date part of the datetime form equals the date-only form', () => {
         // Same call site instant; the datetime string starts with the date string.
         expect(formatNowForInput(true).startsWith(formatNowForInput(false))).toBe(true)
+    })
+})
+
+// Issue #162: Saturday starts the week in much of the Arab world
+describe('Saturday week start', () => {
+    afterEach(() => setWeekStartDay(1))
+
+    test('weeks start on Saturday', () => {
+        setWeekStartDay(6)
+        // Wednesday 2026-10-14 belongs to the week starting Saturday 2026-10-10
+        expect(formatDateISO(startOfWeek(new Date(2026, 9, 14)))).toBe('2026-10-10')
+        // A Saturday is the first day of its own week
+        expect(formatDateISO(startOfWeek(new Date(2026, 9, 17)))).toBe('2026-10-17')
+    })
+
+    test('Friday and the next Saturday fall in different weeks', () => {
+        setWeekStartDay(6)
+        const friday = new Date(2026, 9, 16)
+        const saturday = new Date(2026, 9, 17)
+        expect(isSameWeek(friday, saturday)).toBe(false)
+        expect(isSameWeek(new Date(2026, 9, 10), friday)).toBe(true)
+    })
+
+    test('week columns are anchored on Saturdays', () => {
+        setWeekStartDay(6)
+        const weeks = getWeeksBetween(new Date(2026, 9, 14), new Date(2026, 9, 28))
+        expect(weeks.map(formatDateISO)).toEqual(['2026-10-10', '2026-10-17', '2026-10-24'])
+    })
+
+    test('only Sunday, Monday and Saturday are accepted as stored settings', () => {
+        for (const day of [0, 1, 6]) expect(isWeekStartDay(day)).toBe(true)
+        for (const day of [2, 3, 4, 5, 7, -1, '6', null, undefined]) {
+            expect(isWeekStartDay(day)).toBe(false)
+        }
     })
 })

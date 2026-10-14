@@ -9,7 +9,7 @@ import { VisualizationPresetSection } from './visualization-preset-section'
 import { DateSettingsSection } from './date-settings-section'
 import { StarterKitSection } from './starter-kit-section'
 import { SectionPage } from './section-page'
-import { log } from '../../utils'
+import { isWeekStartDay, log } from '../../utils'
 
 /** The sub-pages drawn imperatively by a section editor */
 type SectionPageKey = 'properties' | 'presets' | 'starter-kit'
@@ -17,7 +17,7 @@ type SectionPageKey = 'properties' | 'presets' | 'starter-kit'
 /** Animation duration bounds, in seconds (stored in milliseconds) */
 const ANIMATION_SECONDS = { min: 1, max: 10, step: 0.5 } as const
 
-const WEEK_START_OPTIONS: Record<string, string> = { '1': 'Monday', '0': 'Sunday' }
+const WEEK_START_OPTIONS: Record<string, string> = { '1': 'Monday', '0': 'Sunday', '6': 'Saturday' }
 
 /** Dropdown entry that leaves note creation to the Periodic Notes plugin */
 const PERIODIC_NOTES_OPTION = ''
@@ -411,10 +411,10 @@ export class LifeTrackerPluginSettingTab extends PluginSettingTab {
                 }
             }
             case 'weekStartsOn': {
-                if (value !== '0' && value !== '1') {
-                    throw new Error(`Setting "${key}" expects "0" or "1".`)
+                const weekStartsOn = Number(value)
+                if (!isWeekStartDay(weekStartsOn)) {
+                    throw new Error(`Setting "${key}" expects "0", "1" or "6".`)
                 }
-                const weekStartsOn = value === '0' ? 0 : 1
                 return {
                     apply: (draft) => {
                         draft.weekStartsOn = weekStartsOn

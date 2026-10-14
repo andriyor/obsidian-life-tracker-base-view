@@ -14,7 +14,8 @@ import {
     log,
     setCustomFilenameDatePatterns,
     setHighContrastMode,
-    setWeekStartDay
+    setWeekStartDay,
+    isWeekStartDay
 } from '../utils'
 import { LifeTrackerView, LIFE_TRACKER_VIEW_TYPE } from './view/life-tracker-view'
 import { getLifeTrackerViewOptions } from './view/view-options'
@@ -232,7 +233,7 @@ export class LifeTrackerPlugin extends Plugin {
         }
 
         // Load week start (0 = Sunday, 1 = Monday)
-        if (loadedSettings.weekStartsOn === 0 || loadedSettings.weekStartsOn === 1) {
+        if (isWeekStartDay(loadedSettings.weekStartsOn)) {
             draft.weekStartsOn = loadedSettings.weekStartsOn
         }
 

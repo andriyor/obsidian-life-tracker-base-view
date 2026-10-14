@@ -31,14 +31,23 @@ import { TimeGranularity, TimeFrame } from '../app/types'
 
 /**
  * First day of the week, using date-fns' `weekStartsOn` convention.
- * 0 = Sunday, 1 = Monday. Defaults to Monday (issue #99).
+ * 0 = Sunday, 1 = Monday, 6 = Saturday (issue #162: the start of the week in
+ * much of the Arab world). Defaults to Monday (issue #99).
  *
  * Note: this only affects week grouping/boundaries used for display
  * (weekly aggregation buckets, heatmap week columns, "this/last week"
  * ranges). ISO week parsing/labels (`YYYY-Www` filenames) stay Monday-based
  * per the ISO-8601 standard.
  */
-export type WeekStartDay = 0 | 1
+export type WeekStartDay = 0 | 1 | 6
+
+/** Every supported week start, for validating stored settings */
+export const WEEK_START_DAYS: readonly WeekStartDay[] = [0, 1, 6]
+
+/** Whether a stored value is a supported week start */
+export function isWeekStartDay(value: unknown): value is WeekStartDay {
+    return (WEEK_START_DAYS as readonly unknown[]).includes(value)
+}
 
 let configuredWeekStart: WeekStartDay = 1
 
@@ -47,7 +56,7 @@ export function setWeekStartDay(day: WeekStartDay): void {
     configuredWeekStart = day
 }
 
-/** Get the configured first day of the week (0 = Sunday, 1 = Monday). */
+/** Get the configured first day of the week (0 = Sunday, 1 = Monday, 6 = Saturday). */
 export function getWeekStartDay(): WeekStartDay {
     return configuredWeekStart
 }

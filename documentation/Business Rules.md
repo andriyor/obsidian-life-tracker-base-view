@@ -261,7 +261,7 @@ When the "Capture properties" command is invoked from a custom base view (Life T
 
 ## Week Start
 
-- Week grouping (weekly granularity buckets), heatmap week columns, and "this week"/"last week" time frames honor a configurable first day of the week (`weekStartsOn`: Monday default, Sunday optional) — issue #99.
+- Week grouping (weekly granularity buckets), heatmap week columns, and "this week"/"last week" time frames honor a configurable first day of the week (`weekStartsOn`: Monday default, Sunday or Saturday optional) — issues #99, #162. Stored values other than 0, 1, 6 are ignored on load (Monday is kept)
 - ISO week parsing and labels (`YYYY-Www` filenames, week numbers) remain Monday-based per ISO-8601 regardless of the setting.
 
 ## Heatmap Streaks

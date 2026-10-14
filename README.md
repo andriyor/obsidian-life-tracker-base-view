@@ -28,7 +28,7 @@ You can find more details and background information here: https://www.knowii.ne
 - **X-axis source**: line, bar, and area charts can plot one point per note (labeled with the note name, in the view's sort order) instead of grouping by date — ideal for Bases of books, projects, or people
 - **List property visualization**: list/tag properties automatically visualized with occurrence counts (pie/doughnut) or presence tracking over time (line/bar)
 - **Per-view settings**: time granularity (daily to yearly), date anchor property, layout options
-- **First day of the week**: choose Monday (default) or Sunday for week grouping and heatmap columns
+- **First day of the week**: choose Monday (default), Sunday or Saturday for week grouping and heatmap columns
 - **Custom filename date patterns**: recognize your own note naming conventions (`Journal 2026-07-30`, `20260730`, `30.07.2026`, …) with simple `{{date}}` / `{{year}}` / `{{month}}` / `{{day}}` / `{{week}}` / `{{quarter}}` placeholders, on top of the built-in formats
 - **Time frame selection**: filter visualizations to show specific date ranges (all time, last 7/30/90/365 days, this week/month/quarter/year, etc.)
 - **Grid layout controls**: adjustable columns (1-6)
