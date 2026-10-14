@@ -240,6 +240,8 @@ When the "Capture properties" command is invoked from a custom base view (Life T
 - Each queued write persists the settings as they are when it runs, not when it was queued, so the last write always reflects the newest state
 - A failed write rejects for its own caller but does not wedge the queue
 - An external change to `data.json` (Sync, git, hand edit) is reloaded via `onExternalSettingsChange` and views get a `full` refresh. The reload never saves: writing back would turn a reload into an overwrite
+- An open settings tab is redrawn after such a reload (it is not a settings listener: it would redraw under the cursor on every keystroke)
+- A changed `data.json` that cannot be parsed (caught mid-write by a sync tool) or is missing keeps the current settings: resetting to defaults would let the next save wipe every property definition
 
 ## Editable Map Keys
 

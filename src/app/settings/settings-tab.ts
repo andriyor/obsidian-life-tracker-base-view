@@ -451,6 +451,18 @@ export class LifeTrackerPluginSettingTab extends PluginSettingTab {
         return page
     }
 
+    /**
+     * Show settings that were reloaded from disk (`data.json` changed outside
+     * Obsidian): re-declare the tab and redraw every open section page, so an
+     * open tab shows the values the plugin now runs on, not the old ones.
+     */
+    refreshFromSettings(): void {
+        this.update()
+        for (const page of this.openPages.values()) {
+            page.display()
+        }
+    }
+
     /** Redraw a section's page if it is open; nothing to do otherwise */
     private redrawPage(key: SectionPageKey): void {
         this.openPages.get(key)?.display()

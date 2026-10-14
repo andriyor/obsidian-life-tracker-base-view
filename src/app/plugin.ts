@@ -42,6 +42,12 @@ export class LifeTrackerPlugin extends Plugin {
     starterKit!: StarterKitService
 
     /**
+     * The settings tab, kept so a reload from disk can redraw it while open
+     * (see `onExternalSettingsChange`). Null until `onload` registers it.
+     */
+    settingTab: LifeTrackerPluginSettingTab | null = null
+
+    /**
      * Listeners for settings changes
      */
     private settingsChangeListeners: Set<SettingsChangeCallback> = new Set()
@@ -147,7 +153,8 @@ export class LifeTrackerPlugin extends Plugin {
         this.starterKit = new StarterKitService(this.app)
 
         // Add a settings screen for the plugin
-        this.addSettingTab(new LifeTrackerPluginSettingTab(this.app, this))
+        this.settingTab = new LifeTrackerPluginSettingTab(this.app, this)
+        this.addSettingTab(this.settingTab)
 
         // Register commands
         registerCommands(this)
@@ -198,11 +205,28 @@ export class LifeTrackerPlugin extends Plugin {
      * stay stale and the next save writes them back over the external change.
      *
      * Reloads only; nothing is saved, so the external file is kept as written.
+     * A file that cannot be read (caught mid-write by a sync tool) or is gone
+     * keeps the current settings: resetting to defaults there would let the
+     * next save wipe every property definition.
      */
     override async onExternalSettingsChange(): Promise<void> {
         log('Settings changed on disk, reloading', 'debug')
-        await this.loadSettings()
+        let loadedSettings: PluginSettings | null
+        try {
+            loadedSettings = (await this.loadData()) as PluginSettings | null
+        } catch (error: unknown) {
+            log('Could not read the changed settings, keeping the current ones', 'warn', error)
+            return
+        }
+        if (!loadedSettings) {
+            log('Settings file is empty or missing, keeping the current settings', 'warn')
+            return
+        }
+        this.applyLoadedSettings(loadedSettings)
         this.notifySettingsChanged({ type: 'full' })
+        // Views listen for changes, the settings tab does not (it would redraw
+        // under the user's cursor on every keystroke): refresh it explicitly
+        this.settingTab?.refreshFromSettings()
     }
 
     /**
@@ -210,8 +234,14 @@ export class LifeTrackerPlugin extends Plugin {
      */
     async loadSettings() {
         log('Loading settings', 'debug')
-        const loadedSettings = (await this.loadData()) as PluginSettings | null
+        this.applyLoadedSettings((await this.loadData()) as PluginSettings | null)
+    }
 
+    /**
+     * Replace the in-memory settings with the contents of `data.json`, taking
+     * each known field only when it has the right shape (defaults otherwise)
+     */
+    private applyLoadedSettings(loadedSettings: PluginSettings | null): void {
         if (!loadedSettings) {
             log('Using default settings', 'debug')
             this.settings = structuredClone(DEFAULT_SETTINGS)
