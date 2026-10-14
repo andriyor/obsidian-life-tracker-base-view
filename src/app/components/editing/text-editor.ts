@@ -1,4 +1,5 @@
 import type { ValidationResult, PropertyEditorConfig } from '../../types'
+import { getPropertyPlaceholder } from '../../types'
 import { validateText, isEmpty } from '../../../utils'
 import { BasePropertyEditor } from './base-editor'
 import { SelectPickTracker } from './select-pick.utils'
@@ -104,7 +105,7 @@ export class TextEditor extends BasePropertyEditor {
                 ? 'lt-editor-input lt-editor-input--compact'
                 : 'lt-editor-input',
             type: 'text',
-            placeholder: this.config.definition.description ?? this.getDisplayLabel()
+            placeholder: getPropertyPlaceholder(this.config.definition)
         })
 
         // Set current value - convert to string for display

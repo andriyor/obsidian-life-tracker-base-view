@@ -280,6 +280,11 @@ When the "Capture properties" command is invoked from a custom base view (Life T
 - From an empty field: a range with min > 0 lands on its minimum either way. Otherwise + gives one step up from 0 (clamped), and − gives the range minimum, or 0 when unbounded (never negative from empty for unbounded). A 0-based counter's first + therefore logs 1, not a 0 that looks like no-op (issue #122); a deliberate 0 is one − tap
 - The −/+ buttons commit immediately (one tap = one saved value); the buttons disable at the range bounds
 
+## Property Descriptions
+
+- The capture dialog shows a property's description with its line breaks kept (`white-space: pre-line`), so a one-line-per-value description stays one line per value
+- Single-line inputs use the description as their placeholder, lines joined with `·` (an input would drop the breaks and glue the lines together); with no description the placeholder is the display label
+
 ## Capture Modal Swipe Navigation
 
 - On touch/pen input, swiping the card left moves to the next property and right to the previous one — identical to the arrow buttons (issue #140)

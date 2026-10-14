@@ -290,6 +290,20 @@ export function getPropertyDisplayLabel(definition: PropertyDefinition): string 
 }
 
 /**
+ * Placeholder for a single-line input: the description, or the display label
+ * when there is none. An input drops line breaks without adding a space, which
+ * would glue the lines of a one-line-per-value description together, so they
+ * are joined with " · " instead.
+ */
+export function getPropertyPlaceholder(definition: PropertyDefinition): string {
+    const lines = definition.description
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter((line) => line !== '')
+    return lines.length > 0 ? lines.join(' · ') : getPropertyDisplayLabel(definition)
+}
+
+/**
  * Human-readable labels for mapping types
  */
 export const MAPPING_TYPE_LABELS: Record<MappingType, string> = {

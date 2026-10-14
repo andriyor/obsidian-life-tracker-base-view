@@ -1,4 +1,5 @@
 import type { ValidationResult, PropertyEditorConfig } from '../../types'
+import { getPropertyPlaceholder } from '../../types'
 import {
     validateNumber,
     isEmpty,
@@ -226,7 +227,7 @@ export class NumberEditor extends BasePropertyEditor {
                 ? 'lt-editor-input lt-editor-input--compact lt-editor-input--number'
                 : 'lt-editor-input lt-editor-input--number',
             type: 'text',
-            placeholder: this.config.definition.description ?? this.getDisplayLabel(),
+            placeholder: getPropertyPlaceholder(this.config.definition),
             attr: { ...NUMBER_INPUT_ATTRS }
         })
 

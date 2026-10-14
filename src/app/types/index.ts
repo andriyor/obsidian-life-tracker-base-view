@@ -151,7 +151,7 @@ export type {
     StarterKitApiResult
 } from './property'
 export { STARTER_KIT_PLUGIN_ID } from './property'
-export { getPropertyDisplayLabel } from './property'
+export { getPropertyDisplayLabel, getPropertyPlaceholder } from './property'
 
 // UI types
 export type {

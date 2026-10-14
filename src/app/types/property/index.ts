@@ -29,4 +29,4 @@ export type {
     StarterKitApiResult
 } from './starter-kit.types'
 export { STARTER_KIT_PLUGIN_ID } from './starter-kit.types'
-export { getPropertyDisplayLabel } from './property-definition.types'
+export { getPropertyDisplayLabel, getPropertyPlaceholder } from './property-definition.types'
