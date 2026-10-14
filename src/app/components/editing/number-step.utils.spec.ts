@@ -43,9 +43,27 @@ describe('computeSteppedValue (issue #125)', () => {
     })
 
     describe('bounded properties', () => {
-        test('first tap in either direction lands on the minimum', () => {
+        test('first tap in either direction lands on a minimum above 0', () => {
             expect(computeSteppedValue(null, 1, range(1, 5))).toBe(1)
             expect(computeSteppedValue(null, -1, range(1, 5))).toBe(1)
+        })
+
+        test('a range starting at 0 counts the first + as one step, not 0', () => {
+            expect(computeSteppedValue(null, 1, range(0, 30))).toBe(1)
+            expect(computeSteppedValue(null, 1, { min: 0, max: 30, step: 0.5 })).toBe(0.5)
+        })
+
+        test('the first − on a range starting at or below 0 lands on the minimum', () => {
+            expect(computeSteppedValue(null, -1, range(0, 30))).toBe(0)
+            expect(computeSteppedValue(null, -1, range(-5, 5))).toBe(-5)
+        })
+
+        test('a range below 0 counts the first + up from 0', () => {
+            expect(computeSteppedValue(null, 1, range(-5, 5))).toBe(1)
+        })
+
+        test('the first + is clamped when one step overshoots the range', () => {
+            expect(computeSteppedValue(null, 1, { min: 0, max: 0.5, step: 1 })).toBe(0.5)
         })
 
         test('clamps at the maximum', () => {

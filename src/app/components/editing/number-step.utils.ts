@@ -23,10 +23,13 @@ export function stepSizeFor(range: NumberRange | null): number {
 /**
  * Value one step away from `current`, clamped to the property's range.
  *
- * From an empty field (`current === null`) the first tap lands on the range
- * minimum when the property is bounded — so a 1-5 mood becomes 1, not 2 — and
- * on the step size for unbounded counters, except that a decrement from empty
- * stops at 0 rather than going negative.
+ * From an empty field (`current === null`):
+ * - a range starting above 0 lands on its minimum either way, so a 1-5 mood
+ *   becomes 1, not 2
+ * - otherwise + counts one step up from 0, so the first tap on a 0-30 water
+ *   counter logs 1 rather than a 0 that looks like nothing happened (issue
+ *   #122); − lands on the range minimum, or 0 when unbounded, which is how a
+ *   deliberate "zero today" is entered
  */
 export function computeSteppedValue(
     current: number | null,
@@ -37,7 +40,13 @@ export function computeSteppedValue(
 
     let next: number
     if (current === null) {
-        next = range ? range.min : direction === 1 ? stepSize : 0
+        if (range && range.min > 0) {
+            next = range.min
+        } else if (direction === 1) {
+            next = stepSize
+        } else {
+            next = range ? range.min : 0
+        }
     } else {
         next = roundStep(current + direction * stepSize)
     }
