@@ -28,3 +28,42 @@ export function shouldAutoAdvance(state: AutoAdvanceState): boolean {
     if (!state.enabled || state.isLastProperty) return false
     return state.value !== undefined && state.value !== null && state.value !== ''
 }
+
+/** Timer functions, injectable so the scheduler can be tested without a DOM. */
+export interface AutoAdvanceTimers {
+    setTimeout: (callback: () => void, delayMs: number) => number
+    clearTimeout: (id: number) => void
+}
+
+/**
+ * Holds at most one pending advance. A new schedule replaces the pending one,
+ * and cancel drops it, so an advance never fires after the card it belongs to
+ * is gone.
+ */
+export class AutoAdvanceScheduler {
+    private timerId: number | null = null
+
+    constructor(
+        private readonly timers: AutoAdvanceTimers,
+        private readonly delayMs: number = AUTO_ADVANCE_DELAY_MS
+    ) {}
+
+    schedule(advance: () => void): void {
+        this.cancel()
+        this.timerId = this.timers.setTimeout(() => {
+            this.timerId = null
+            advance()
+        }, this.delayMs)
+    }
+
+    cancel(): void {
+        if (this.timerId !== null) {
+            this.timers.clearTimeout(this.timerId)
+            this.timerId = null
+        }
+    }
+
+    isPending(): boolean {
+        return this.timerId !== null
+    }
+}

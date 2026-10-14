@@ -15,7 +15,7 @@ import { isNoteComplete, findFirstUnfilledIndex } from '../../services/note-comp
 import { createPropertyEditor } from '../editing/property-editor'
 import { AUTO_SAVE_DEBOUNCE_MS } from '../editing/editing.constants'
 import { detectSwipeDirection } from './swipe.utils'
-import { AUTO_ADVANCE_DELAY_MS, shouldAutoAdvance } from './auto-advance.utils'
+import { AutoAdvanceScheduler, shouldAutoAdvance } from './auto-advance.utils'
 import {
     formatFileTitleWithWeekday,
     getEventElement,
@@ -61,7 +61,10 @@ export class PropertyCaptureModal extends Modal {
     private saveDebounceTimer: number | null = null
 
     // Pending auto-advance after a picked value; cancelled with the editor
-    private autoAdvanceTimer: number | null = null
+    private readonly autoAdvance = new AutoAdvanceScheduler({
+        setTimeout: (callback, delayMs) => window.setTimeout(callback, delayMs),
+        clearTimeout: (id) => window.clearTimeout(id)
+    })
 
     // Direction of the last navigation, used to replay the card slide-in
     // animation toward the right side (issue #111). Null until the user
@@ -906,6 +909,10 @@ export class PropertyCaptureModal extends Modal {
      * delay lets the picked value show before the card slides away.
      */
     private scheduleAutoAdvance(): void {
+        // A later pick supersedes an earlier one, including one that clears
+        // the value: re-picking "— Select" must not leave the old advance armed
+        this.autoAdvance.cancel()
+
         const advance = shouldAutoAdvance({
             enabled: this.plugin.settings.autoAdvanceOnPick,
             value: this.currentValue,
@@ -913,18 +920,7 @@ export class PropertyCaptureModal extends Modal {
         })
         if (!advance) return
 
-        this.clearAutoAdvance()
-        this.autoAdvanceTimer = window.setTimeout(() => {
-            this.autoAdvanceTimer = null
-            this.validateAndNavigateNext()
-        }, AUTO_ADVANCE_DELAY_MS)
-    }
-
-    private clearAutoAdvance(): void {
-        if (this.autoAdvanceTimer !== null) {
-            window.clearTimeout(this.autoAdvanceTimer)
-            this.autoAdvanceTimer = null
-        }
+        this.autoAdvance.schedule(() => this.validateAndNavigateNext())
     }
 
     /**
@@ -1190,7 +1186,7 @@ export class PropertyCaptureModal extends Modal {
 
     private destroyEditor(): void {
         // A pending auto-advance belongs to this editor's card
-        this.clearAutoAdvance()
+        this.autoAdvance.cancel()
         if (this.currentEditor) {
             this.currentEditor.destroy()
             this.currentEditor = null

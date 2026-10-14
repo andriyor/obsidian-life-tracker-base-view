@@ -290,6 +290,8 @@ When the "Capture properties" command is invoked from a custom base view (Life T
 - Typing and slider drags never auto-advance: there is no point at which a typed value is "done"
 - Picking the empty dropdown option never advances, and the last property never advances: "Done" / "Next file" stay explicit
 - Any navigation or close cancels a pending auto-advance, so it can never fire on a different card
+- A later pick replaces a pending auto-advance; a pick that does not advance (empty option) cancels it
+- Dropdown changes from the keyboard (arrow keys, type-ahead on a closed select) never auto-advance; only a pointer pick does. Keyboard users confirm with Enter
 
 ## Data Entry Safety
 
