@@ -1,6 +1,7 @@
 import type { ValidationResult, PropertyEditorConfig } from '../../types'
 import { validateText, isEmpty } from '../../../utils'
 import { BasePropertyEditor } from './base-editor'
+import { SelectPickTracker } from './select-pick.utils'
 
 /**
  * Text editor - renders as dropdown if allowedValues are defined,
@@ -71,9 +72,18 @@ export class TextEditor extends BasePropertyEditor {
         this.selectEl.value = this.valueToString(this.config.value)
 
         // Event handlers
+        const pickTracker = new SelectPickTracker()
+
+        this.selectEl.addEventListener('pointerdown', () => {
+            pickTracker.onPointerDown()
+        })
+
         this.selectEl.addEventListener('change', () => {
             this.notifyChange(this.selectEl?.value ?? '')
-            this.notifyPick()
+            // Keyboard browsing changes a closed select too; only pointer picks count
+            if (pickTracker.isPick()) {
+                this.notifyPick()
+            }
         })
 
         this.selectEl.addEventListener('blur', () => {
@@ -81,6 +91,7 @@ export class TextEditor extends BasePropertyEditor {
         })
 
         this.selectEl.addEventListener('keydown', (e) => {
+            pickTracker.onKeyDown(e.key)
             if (e.key === 'Enter') {
                 this.notifyEnterKey()
             }
