@@ -127,8 +127,8 @@ function resolveDisplayName(definition: PropertyDefinition, property: StarterKit
  * Fields Starter Kit owns on a linked definition (issue: SK integration).
  *
  * Everything else — `id`, `order`, `displayName`, `valueMapping`, `polarity`,
- * `valueEmojis`, `starterKitLink` — belongs to Life Tracker and must survive
- * every sync.
+ * `valueEmojis`, `showInQuickAdd`, `starterKitLink` — belongs to Life Tracker
+ * and must survive every sync.
  */
 export function applyStarterKitStructure(
     definition: PropertyDefinition,

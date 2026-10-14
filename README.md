@@ -59,6 +59,7 @@ You can find more details and background information here: https://www.knowii.ne
 - **Persistent settings**: grid layout and card configurations saved per view
 - **Empty states**: helpful messages when data is missing or misconfigured
 - **Confetti celebration**: optional animation when completing property capture
+- **Quick add**: log a value in one tap: a panel listing all your counters and checkboxes for the day, or an `obsidian://` link you can put on your phone's home screen to add a glass of water without opening anything
 - **Auto-advance**: optionally jump to the next property as soon as you pick a value from a dropdown, emoji button, or checkbox
 - **Goals and targets**: set a goal per visualization — "3 days a week", "150 reps a week", "at most 80 kg" — and see progress against it; with a running total the target line accumulates alongside the data
 - **Personal records**: properties with a polarity show their personal best (🏆) on charts and heatmaps, and beating it pops a "New record!" notice — checkbox properties show a completion rate (✅ 42/90 days) instead, since their best is always "true"
@@ -134,6 +135,18 @@ Invoked in a Life Tracking Base view:
 
 Use the "Life Tracker: Capture today" command to jump straight to today's daily note (named `YYYY-MM-DD`, or matching one of your filename date patterns) and start capturing — no need to open the note first.
 
+### Quick Add
+
+For logging one value fast (a glass of water, a pushup set, a checkbox), use **Life Tracker: Quick add** or the ribbon icon. It opens a small panel listing every quick-add property for the day, each with its −/+ buttons, toggle or emoji buttons. Each tap saves immediately. With a daily note open, it edits that day; otherwise today. Use ‹ › to switch days.
+
+For true one-tap logging, use a link:
+
+```
+obsidian://life-tracker-quick-add?property=water&increment
+```
+
+Put it on your phone's home screen (iOS Shortcuts, an Android shortcut or widget) and each tap adds one glass to today's note. See [the guide](docs/property-capture.md#quick-add) for all actions.
+
 ### Creating Missing Notes
 
 Skip a day and there's no note to capture into. Turn on **Create missing notes
@@ -196,6 +209,7 @@ Property definitions let you configure which frontmatter properties to track acr
 - **Value direction**: say whether higher is better (mood, steps) or lower is better (weight, screen time). The trend arrow then turns green when things improve and red when they don't, and heatmaps default to a matching color. Leave it neutral and nothing is judged.
 - **Value emojis**: give values or ranges their own emoji (`1-2` → 😞, `3` → 😐, `4-5` → 😄). They appear in tooltips and as one-tap buttons in the capture dialog, so you can log a 5 by tapping 😄.
 - **Default value**: Pre-filled when capturing new data
+- **Show in quick add**: list the property in the quick-add panel (on by default for numbers and checkboxes)
 - **Note filtering**: Apply the property only to specific notes by folder, tag, or regex pattern
 - **Reordering**: Drag and drop to reorder property definitions (affects modal and grid order)
 - **Copy definitions**: Duplicate an existing property definition to quickly create similar ones

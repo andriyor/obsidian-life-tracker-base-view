@@ -13,6 +13,7 @@ Capture and visualize the data that matters in your life. This Obsidian plugin a
 - **13 Visualization Types**: Heatmap, Line, Bar, Area, Pie, Doughnut, Radar, Polar Area, Scatter, Bubble, Tag Cloud, Timeline, Progress Ring
 - **Overlay Charts**: Combine multiple properties on a single chart to visualize correlations
 - **Property Capture**: Quick dialog to fill properties with carousel navigation and batch processing
+- **Quick Add**: One-tap logging from a panel or an `obsidian://` link (phone home-screen shortcuts)
 - **Grid View**: Card-based editing interface for managing properties across multiple notes
 - **Goals and Targets**: Set a goal per visualization — "3 days a week", "150 reps a week", "at most 80 kg" — and track progress against it
 - **Customization**: Per-view settings, time frames, color schemes, scales, and reference lines

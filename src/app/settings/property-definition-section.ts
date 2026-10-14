@@ -15,6 +15,7 @@ import {
     type ValuePolarity
 } from '../types'
 import { computeNumberRange } from './number-range.utils'
+import { isShownInQuickAdd } from '../services/quick-add.utils'
 import { isValidEmojiKey, readPolarity } from '../../utils'
 
 /**
@@ -362,6 +363,23 @@ export class PropertyDefinitionSection {
                         })
                     })
                 textarea.inputEl.rows = 2
+            })
+
+        // Quick add (issue #122)
+        new Setting(optionsContainer)
+            .setName('Show in quick add')
+            .setDesc(
+                'List this property in the quick-add panel. On by default for numbers and checkboxes.'
+            )
+            .addToggle((toggle) => {
+                toggle.setValue(isShownInQuickAdd(definition)).onChange(async (value) => {
+                    await this.plugin.updateSettings((draft) => {
+                        const d = draft.propertyDefinitions.find((d) => d.id === definition.id)
+                        if (d) {
+                            d.showInQuickAdd = value
+                        }
+                    })
+                })
             })
 
         // Mappings (note filtering)
@@ -1202,7 +1220,8 @@ export class PropertyDefinitionSection {
             mappings: source.mappings.map((m) => ({ ...m })), // Deep copy mappings
             valueMapping: source.valueMapping ? { ...source.valueMapping } : null, // Deep copy value mapping
             polarity: source.polarity, // issue #21
-            valueEmojis: source.valueEmojis ? { ...source.valueEmojis } : null // Deep copy, issue #22
+            valueEmojis: source.valueEmojis ? { ...source.valueEmojis } : null, // Deep copy, issue #22
+            showInQuickAdd: source.showInQuickAdd // issue #122
         }
 
         // Auto-expand the new definition

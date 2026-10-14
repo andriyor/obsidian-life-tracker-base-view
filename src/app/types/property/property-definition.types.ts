@@ -221,6 +221,11 @@ export interface PropertyDefinition {
     /** Value/range → emoji map for display and one-tap entry (issue #22) */
     valueEmojis?: EmojiMapping | null
     /**
+     * Whether the property is listed in the quick-add panel (issue #122).
+     * Absent means the type default: shown for numbers and checkboxes.
+     */
+    showInQuickAdd?: boolean
+    /**
      * Link to the Obsidian Starter Kit property this definition mirrors.
      *
      * When set, Starter Kit owns the *structure* (name, type, constraints,

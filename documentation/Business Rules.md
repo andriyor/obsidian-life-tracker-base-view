@@ -211,7 +211,7 @@ When the "Capture properties" command is invoked from a custom base view (Life T
 ## Starter Kit Integration
 
 - Life Tracker reads the Obsidian Starter Kit plugin (`obsidian-starter-kit`) through its `plugin.api`, and only ever reads. The integration is entirely optional: absent, disabled, or an API missing an expected method all degrade to "not available", never an error
-- **Ownership split for a linked definition**: Starter Kit owns the structure — `name`, `type`, `allowedValues`, `numberRange`, `defaultValue`, `required`, `description`, and `mappings`. Life Tracker owns `id`, `order`, `displayName`, `valueMapping`, `polarity`, `valueEmojis`. A sync never touches a Life-Tracker-owned field
+- **Ownership split for a linked definition**: Starter Kit owns the structure — `name`, `type`, `allowedValues`, `numberRange`, `defaultValue`, `required`, `description`, and `mappings`. Life Tracker owns `id`, `order`, `displayName`, `valueMapping`, `polarity`, `valueEmojis`, `showInQuickAdd`. A sync never touches a Life-Tracker-owned field
 - **`displayName` belongs to Life Tracker**: it is presentation, and Starter Kit defaults it to the raw property name. A label the user customized (one that differs from the raw name) is kept; an empty or raw-name label takes Starter Kit's, which is how a freshly imported property gets a sensible one. Validated against a real vault where the naive rule would have renamed 90 labelled properties back to `health_energy_level` and friends
 - The same property name can legitimately exist in many Starter Kit note types (one real vault has `rating` in 22 of them), while Life Tracker has **one definition per frontmatter key**. The first source to claim a name wins and the rest are conflicts, naming the note type that holds it so the user can choose
 - `polarity` / `valueEmojis` are deliberately **not** mirrored into Starter Kit's schema: it would store them without ever acting on them, and two homes for one value is the drift the link exists to prevent
@@ -346,6 +346,18 @@ When the "Capture properties" command is invoked from a custom base view (Life T
 - Notes matched by a custom pattern beat notes matched only by a built-in pattern: a configured (possibly folder-scoped) pattern states where the user's daily notes live (issue #152)
 - Within the same group, the most recently modified note wins
 - When no note exists, the command offers to create one (issue #160). Opt-in (`createMissingNotes`, off by default) and always confirmed: this writes a new file, and the location comes from another plugin's configuration
+
+## Quick Add
+
+- Issue #122. A panel (command "Quick add" + ribbon icon) listing one day's quick-add properties at once, each saved as it changes; no Next / Done. The capture carousel stays the place for a full check-in
+- Panel day: the open note's date when it is a daily note (back-filling in place), today otherwise. ‹ › step one day; a "Today" button appears on any other day
+- Day lookup is the Capture Today resolution (custom pattern beats built-in, then freshest), for any date. A missing note offers creation through the same opt-in, confirmed flow (`createMissingNotes`); nothing is created silently
+- `showInQuickAdd` on a property definition: explicit value wins; absent means shown for `number` and `checkbox` only (the one-tap types). The panel also respects note filtering (mappings)
+- Panel saves follow Data Entry Safety: invalid values are not written, pending debounced edits are flushed before a day change or close
+- Link `obsidian://life-tracker-quick-add?property=<name>&<action>[&date=YYYY-MM-DD]` applies one action with no UI. Actions: `increment[=n]`, `decrement[=n]` (numbers), `toggle` (checkboxes), `set=<value>` (any non-list type). Exactly one action. A bare increment/decrement moves one step like the −/+ buttons; an explicit amount adds to the current value (empty = 0). Results are clamped to the range, then validated; invalid writes are refused with a notice
+- Links target `date` or today, **never the open note**: a home-screen shortcut must do the same thing whatever is open. `date` is parsed as local midnight and rolled-over dates (2026-02-31) are rejected
+- Property lookup: exact name, then case-insensitive name or display name. A property whose mappings exclude the day's note is refused, not written
+- A link with no `property` and no action opens the panel on `date` or today
 
 ## Creating Missing Notes
 

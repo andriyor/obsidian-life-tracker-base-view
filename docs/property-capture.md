@@ -23,6 +23,7 @@ Before capturing data, define which properties to track:
 | Default     | Pre-filled value for new entries                                                                                       |
 | Constraints | Min/max/step for numbers, allowed values for text                                                                      |
 | Note filter | Folder, tag, or regex pattern to limit scope                                                                           |
+| Quick add   | Whether the property is listed in the quick-add panel (default: numbers and checkboxes)                                |
 
 For **number** properties you can set a **min**, **max**, and optional **step**. The step controls the slider granularity (e.g. `1` for whole-number scores, `0.5` for half points); leave it empty to allow fine decimal values. If you fill in only one bound, the other is inferred automatically (min → `max = min + 100`, max → `min = 0`) and the inferred value is shown so there's no silent guessing.
 
@@ -119,6 +120,53 @@ When invoked from a Life Tracker or Grid view:
 - Navigate between notes and properties
 - Filter to show only notes with missing required properties
 - Time frame settings are respected (only notes in the selected period)
+
+## Quick Add
+
+The capture dialog walks through properties one at a time, which is right for a
+full check-in. For logging a single value, use quick add instead.
+
+### The panel
+
+Run **Life Tracker: Quick add** (or click the ribbon icon). The panel lists the
+quick-add properties of one day's note, all at once, each with its usual editor:
+−/+ buttons, emoji buttons, a checkbox. Every change saves immediately; there is
+no Next or Done.
+
+- With a daily note open, the panel edits that day, so you can fill in an old
+  daily note in place. Otherwise it edits today.
+- ‹ and › move one day; **Today** jumps back.
+- If the day has no note, you can create it from the panel when **Create missing
+  notes when capturing** is on.
+- **Open full capture** switches to the capture dialog for the same note.
+
+Which properties appear is set per property with **Show in quick add**. It is on
+by default for numbers and checkboxes, the one-tap types.
+
+### Quick-add links
+
+A link logs a value with no panel at all. Put one on your phone's home screen
+(iOS Shortcuts "Open URL", an Android shortcut or widget) and logging a glass of
+water is a single tap.
+
+```
+obsidian://life-tracker-quick-add?property=water&increment
+```
+
+| Parameter         | Meaning                                                         |
+| ----------------- | --------------------------------------------------------------- |
+| `property`        | Property name or display label (case-insensitive)               |
+| `increment[=n]`   | Number: add one step (like the + button), or `n`                |
+| `decrement[=n]`   | Number: remove one step, or `n`                                 |
+| `toggle`          | Checkbox: flip it                                               |
+| `set=<value>`     | Set any non-list property, e.g. `set=7`, `set=true`, `set=mild` |
+| `date=YYYY-MM-DD` | Optional. The day to write to; today when absent                |
+
+Use exactly one action per link. A link with no property opens the panel. Links
+always target today (or `date`), never the note you have open, so a shortcut
+behaves the same every time. Values are clamped to the property's range and
+validated; a rejected value shows a notice and nothing is written. A notice
+confirms each write, e.g. "Water: 6 (today)".
 
 ## Modal Interface
 

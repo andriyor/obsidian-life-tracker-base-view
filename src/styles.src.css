@@ -3125,6 +3125,84 @@
         }
     }
 
+    /* ========================================
+       QUICK-ADD PANEL (issue #122)
+       ======================================== */
+    .lt-quick-add-header {
+        @apply flex items-center justify-center gap-3 mb-4 flex-wrap;
+    }
+
+    .lt-quick-add-title {
+        @apply flex flex-col items-center min-w-[9rem];
+    }
+
+    .lt-quick-add-weekday {
+        @apply text-lg font-bold tracking-tight;
+        color: var(--text-normal);
+    }
+
+    .lt-quick-add-date {
+        @apply text-sm;
+        color: var(--text-muted);
+    }
+
+    .lt-quick-add-today-btn {
+        @apply text-xs;
+    }
+
+    .lt-quick-add-body {
+        @apply flex flex-col rounded-lg;
+        border: 1px solid var(--background-modifier-border);
+    }
+
+    .lt-quick-add-row {
+        @apply flex items-center justify-between gap-3 px-3 py-2;
+        border-bottom: 1px solid var(--background-modifier-border);
+    }
+
+    .lt-quick-add-row:last-child {
+        border-bottom: none;
+    }
+
+    .lt-quick-add-row--invalid .lt-quick-add-editor {
+        outline: 1px solid var(--text-error);
+        @apply rounded;
+    }
+
+    .lt-quick-add-label {
+        @apply text-sm font-medium;
+        color: var(--text-normal);
+    }
+
+    .lt-quick-add-editor {
+        @apply flex justify-end;
+    }
+
+    .lt-quick-add-empty {
+        @apply flex flex-col items-center gap-3 p-6 text-center text-sm;
+        color: var(--text-muted);
+    }
+
+    .lt-quick-add-hint {
+        @apply text-xs;
+        color: var(--text-faint);
+    }
+
+    .lt-quick-add-footer {
+        @apply flex justify-end mt-4;
+    }
+
+    /* Phones: stack label over editor so −/+ and emoji rows get full width */
+    @media (max-width: 480px) {
+        .lt-quick-add-row {
+            @apply flex-col items-stretch;
+        }
+
+        .lt-quick-add-editor {
+            @apply justify-start;
+        }
+    }
+
     /* Directional slide replayed on property/file navigation (issue #111) */
     .lt-carousel-card--slide-forward {
         animation: lt-carousel-slide-forward 0.25s ease-out;

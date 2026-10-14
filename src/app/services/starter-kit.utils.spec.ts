@@ -61,6 +61,7 @@ function localDefinition(overrides: Partial<PropertyDefinition> = {}): PropertyD
         polarity: 'higher-is-better',
         valueEmojis: { '1': '😞', '5': '😄' },
         valueMapping: { great: 5 },
+        showInQuickAdd: false,
         ...overrides
     }
 }
@@ -86,6 +87,8 @@ describe('applyStarterKitStructure — ownership split', () => {
         expect(result.polarity).toBe('higher-is-better')
         expect(result.valueEmojis).toEqual({ '1': '😞', '5': '😄' })
         expect(result.valueMapping).toEqual({ great: 5 })
+        // Quick add (issue #122): the user's choice, not the type default
+        expect(result.showInQuickAdd).toBe(false)
     })
 
     test('copies the note type mappings so the property is scoped to its notes', () => {
