@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.2.0](https://github.com/dsebastien/obsidian-life-tracker-base-view/compare/3.1.0...3.2.0) (2026-10-14)
+
+### Saturday as the first day of the week
+
+**First day of the week** (Settings → Dates) now offers Saturday next to Monday
+and Sunday. Weekly grouping, heatmap week columns and day labels, and "this
+week" / "last week" ranges all follow it. ISO week labels (`2026-W42`) stay
+Monday-based.
+
+### Settings changed elsewhere are no longer overwritten
+
+When `data.json` changed outside Obsidian (Obsidian Sync, a git pull, a hand
+edit) while the plugin was running, the next settings change wrote the old
+settings back and silently discarded the external change. The plugin now reloads
+its settings when the file changes on disk, refreshes open views and an open
+settings tab, and never writes during the reload. A file caught mid-write by a
+sync tool, or briefly missing, is ignored instead of resetting your settings.
+Thanks to Andrii Oriekhov.
+
+### Multi-line property descriptions
+
+A description written one line per value (`none — no headache`, `mild — …`) now
+keeps its line breaks in the capture dialog instead of turning into one run-on
+line. Used as an input's placeholder, its lines are joined with " · ". A
+property without a description now shows its name as the placeholder. Thanks to
+Andrii Oriekhov.
+
 ## [3.1.0](https://github.com/dsebastien/obsidian-life-tracker-base-view/compare/3.0.0...3.1.0) (2026-10-14)
 
 ### Quick add: log a value in one tap
@@ -552,6 +579,7 @@ Claude-Session: https://claude.ai/code/session_01LM4hi11kohPVqgZNLpjRgh
 * **all:** removed animations for heatmaps (nok) ([1178a1f](https://github.com/dsebastien/obsidian-life-tracker-base-view/commit/1178a1ffe084166921f56e08c4d1f77126a9fe5c))
 * **all:** updated build to also take care of the CSS with Tailwind ([4091553](https://github.com/dsebastien/obsidian-life-tracker-base-view/commit/4091553d491051d4d8874438555fa49f8d0787ae))
 * **build:** handle copying manifest.json and versions.js in the build script ([4aff9ff](https://github.com/dsebastien/obsidian-life-tracker-base-view/commit/4aff9ff22ea4b9ccb6a735e56e6db3d499b91948))
+
 
 
 
