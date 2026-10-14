@@ -121,9 +121,7 @@ export class ColumnConfigService {
         }
 
         const raw = this.getConfigValue(COLUMN_CONFIGS_KEY) as
-            | ColumnConfigMap
-            | LegacyColumnConfigMap
-            | undefined
+            ColumnConfigMap | LegacyColumnConfigMap | undefined
 
         if (!raw) {
             // Not cached: an empty read must not shadow a config that appears later

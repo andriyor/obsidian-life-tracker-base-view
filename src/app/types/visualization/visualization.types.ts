@@ -351,14 +351,7 @@ export interface HeatmapConfig extends VisualizationConfig {
  * Supported Chart.js chart types
  */
 export type ChartJsType =
-    | 'line'
-    | 'bar'
-    | 'pie'
-    | 'doughnut'
-    | 'radar'
-    | 'polarArea'
-    | 'scatter'
-    | 'bubble'
+    'line' | 'bar' | 'pie' | 'doughnut' | 'radar' | 'polarArea' | 'scatter' | 'bubble'
 
 /**
  * Chart-specific configuration

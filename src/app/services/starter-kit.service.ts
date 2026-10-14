@@ -87,7 +87,7 @@ export class StarterKitService {
         const host = this.app as unknown as PluginRegistryHost
         const instance = host.plugins?.plugins?.[STARTER_KIT_PLUGIN_ID]
         if (!instance || typeof instance !== 'object') return null
-        return instance as StarterKitPluginInstance
+        return instance
     }
 
     /**

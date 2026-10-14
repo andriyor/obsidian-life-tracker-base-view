@@ -4,8 +4,7 @@ import type { EmojiMapping } from '../app/types/property/property-definition.typ
  * A mapping key parsed into what it actually matches (issue #22).
  */
 export type ParsedEmojiKey =
-    | { kind: 'exact'; value: number }
-    | { kind: 'range'; min: number; max: number }
+    { kind: 'exact'; value: number } | { kind: 'range'; min: number; max: number }
 
 /**
  * Range keys accept `1-2` or `1..2`, and cope with negative bounds (`-5--1`,

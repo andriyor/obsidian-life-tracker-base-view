@@ -221,8 +221,11 @@ export function getVisualizationConfig(
             } as ChartConfig
         }
 
-        case VisualizationType.TagCloud:
-            return {
+        case VisualizationType.TagCloud: {
+            // Typed binding rather than an assertion: returned directly, the
+            // literal is checked against the VisualizationConfig union and its
+            // tag-cloud fields read as excess properties
+            const tagCloud: TagCloudConfig = {
                 ...baseConfig,
                 minFontSize: 12,
                 maxFontSize: 32,
@@ -230,7 +233,9 @@ export function getVisualizationConfig(
                     getEnumConfig(getConfig, 'tagCloudSortBy', ['frequency', 'alphabetical']) ??
                     'frequency',
                 maxTags: getNumberConfig(getConfig, 'tagCloudMaxTags') ?? 50
-            } as TagCloudConfig
+            }
+            return tagCloud
+        }
 
         case VisualizationType.Timeline:
             return {

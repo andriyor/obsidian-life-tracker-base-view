@@ -121,8 +121,7 @@ export interface CompiledFilenameDatePattern {
  * Result of compiling a pattern: either a usable pattern or a user-facing error
  */
 export type FilenameDatePatternCompilation =
-    | { ok: true; compiled: CompiledFilenameDatePattern }
-    | { ok: false; error: string }
+    { ok: true; compiled: CompiledFilenameDatePattern } | { ok: false; error: string }
 
 /** Wildcard character usable in patterns to match arbitrary text */
 const WILDCARD = '*'

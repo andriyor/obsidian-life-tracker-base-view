@@ -125,7 +125,7 @@ export class NoteCreationService {
 
         const instance = registry.plugins?.[TEMPLATER_PLUGIN_ID]
         if (!instance || typeof instance !== 'object') return null
-        return instance as TemplaterPluginInstance
+        return instance
     }
 
     /**

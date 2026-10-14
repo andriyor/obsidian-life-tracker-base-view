@@ -49,7 +49,7 @@ function makeLegacyConfig(): LegacyColumnConfigMap {
             displayName: 'Energy',
             configuredAt: 1000
         }
-    } as unknown as LegacyColumnConfigMap
+    }
 }
 
 /**
@@ -66,7 +66,7 @@ function makeModernConfig(id = 'viz-1'): ColumnConfigMap {
                 configuredAt: 2000
             }
         ]
-    } as unknown as ColumnConfigMap
+    }
 }
 
 // ─── Legacy format detection & migration ──────────────────────────────────────
@@ -222,26 +222,26 @@ describe('ColumnConfigService — findMatchingPreset', () => {
     test('returns matching preset by raw property name (case-insensitive)', () => {
         const { service } = makeService({}, [preset])
         // note.energy → rawPropertyName = energy
-        const result = service.findMatchingPreset('note.energy' as BasesPropertyId)
+        const result = service.findMatchingPreset('note.energy')
         expect(result).not.toBeNull()
         expect(result!.id).toBe('preset-1')
     })
 
     test('match is case-insensitive', () => {
         const { service } = makeService({}, [preset])
-        const result = service.findMatchingPreset('note.Energy' as BasesPropertyId)
+        const result = service.findMatchingPreset('note.Energy')
         expect(result).not.toBeNull()
     })
 
     test('returns null when no preset matches', () => {
         const { service } = makeService({}, [preset])
-        const result = service.findMatchingPreset('note.sleep' as BasesPropertyId)
+        const result = service.findMatchingPreset('note.sleep')
         expect(result).toBeNull()
     })
 
     test('returns null when presets array is empty', () => {
         const { service } = makeService({}, [])
-        expect(service.findMatchingPreset('note.energy' as BasesPropertyId)).toBeNull()
+        expect(service.findMatchingPreset('note.energy')).toBeNull()
     })
 })
 

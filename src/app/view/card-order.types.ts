@@ -18,8 +18,7 @@ export const PINNED_CARDS_KEY = 'pinnedCards'
  * property card or an overlay card.
  */
 export type OrderedCardItem =
-    | { kind: 'property'; id: BasesPropertyId }
-    | { kind: 'overlay'; id: string }
+    { kind: 'property'; id: BasesPropertyId } | { kind: 'overlay'; id: string }
 
 /**
  * Serialized form persisted in view config: a flat string[] where each

@@ -317,7 +317,7 @@ describe('DateAnchorService', () => {
 
     describe('config factories', () => {
         test('createPropertyConfig returns correct shape', () => {
-            const cfg = service.createPropertyConfig('note.date' as BasesPropertyId, 3)
+            const cfg = service.createPropertyConfig('note.date', 3)
             expect(cfg.source.type).toBe('property')
             expect(cfg.priority).toBe(3)
         })

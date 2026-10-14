@@ -1,5 +1,4 @@
 import { describe, expect, test } from 'bun:test'
-import type { BasesPropertyId } from 'obsidian'
 import { getVisualizationConfig } from './visualization-config.helper'
 import {
     VisualizationType,
@@ -21,7 +20,7 @@ function configGetter(values: Record<string, unknown> = {}): (key: string) => un
 function columnConfig(colorScheme?: StoredColorScheme): ColumnVisualizationConfig {
     const config: ColumnVisualizationConfig = {
         id: 'viz-1',
-        propertyId: 'note.mood' as BasesPropertyId,
+        propertyId: 'note.mood',
         visualizationType: VisualizationType.Heatmap,
         displayName: 'Mood',
         configuredAt: 0

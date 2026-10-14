@@ -136,13 +136,7 @@ export function resolveEffectiveHeatmapScheme(scheme: HeatmapColorScheme): Heatm
  * Names of the built-in heatmap gradient presets.
  */
 export type HeatmapPresetName =
-    | 'green'
-    | 'blue'
-    | 'purple'
-    | 'orange'
-    | 'red'
-    | 'viridis'
-    | 'cividis'
+    'green' | 'blue' | 'purple' | 'orange' | 'red' | 'viridis' | 'cividis'
 
 /**
  * Stored value meaning "no explicit heatmap scheme chosen": fall back to the
@@ -426,13 +420,7 @@ export const CHART_COLORS_HEX: string[] = [
  * Chart color scheme identifiers
  */
 export type ChartColorScheme =
-    | 'default'
-    | 'green'
-    | 'blue'
-    | 'purple'
-    | 'orange'
-    | 'red'
-    | 'colorblind'
+    'default' | 'green' | 'blue' | 'purple' | 'orange' | 'red' | 'colorblind'
 
 /** Every valid chart scheme name, for runtime validation of stored config. */
 export const CHART_COLOR_SCHEMES: readonly ChartColorScheme[] = [

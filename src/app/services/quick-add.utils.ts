@@ -52,8 +52,7 @@ export type QuickAddRequest =
     | { kind: 'apply'; property: string; action: QuickAddAction; date: Date | null }
 
 export type QuickAddParseResult =
-    | { ok: true; request: QuickAddRequest }
-    | { ok: false; error: string }
+    { ok: true; request: QuickAddRequest } | { ok: false; error: string }
 
 const ACTION_PARAMS = ['increment', 'decrement', 'toggle', 'set'] as const
 

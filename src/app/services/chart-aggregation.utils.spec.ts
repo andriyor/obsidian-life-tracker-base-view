@@ -435,12 +435,7 @@ describe('missing values are gaps, not zeros (issue #92)', () => {
             createDataPoint('b.md', '2025-01-01', { numericValue: null }),
             createDataPoint('c.md', '2025-01-01', { numericValue: 20 })
         ]
-        const result = aggregateForChart(
-            dataPoints,
-            'note.energy' as BasesPropertyId,
-            'Energy',
-            TimeGranularity.Daily
-        )
+        const result = aggregateForChart(dataPoints, 'note.energy', 'Energy', TimeGranularity.Daily)
         // Average of 10 and 20 — the null entry must not contribute a 0
         expect(result.datasets[0]?.data).toEqual([15])
     })
@@ -451,12 +446,7 @@ describe('missing values are gaps, not zeros (issue #92)', () => {
             createDataPoint('b.md', '2025-01-02', { numericValue: null }),
             createDataPoint('c.md', '2025-01-03', { numericValue: 30 })
         ]
-        const result = aggregateForChart(
-            dataPoints,
-            'note.energy' as BasesPropertyId,
-            'Energy',
-            TimeGranularity.Daily
-        )
+        const result = aggregateForChart(dataPoints, 'note.energy', 'Energy', TimeGranularity.Daily)
         // The empty period keeps its label (showEmptyValues semantics)
         // but renders as a gap
         expect(result.labels).toHaveLength(3)
@@ -471,7 +461,7 @@ describe('missing values are gaps, not zeros (issue #92)', () => {
         ]
         const result = aggregateForChart(
             dataPoints,
-            'note.calories' as BasesPropertyId,
+            'note.calories',
             'Calories',
             TimeGranularity.Daily,
             'sum'
@@ -485,7 +475,7 @@ describe('missing values are gaps, not zeros (issue #92)', () => {
             createDataPoint('b.md', '2025-01-02', { numericValue: null }),
             createDataPoint('c.md', '2025-01-03', { numericValue: 7 })
         ]
-        const result = aggregateForScatterChart(dataPoints, 'note.mood' as BasesPropertyId, 'Mood')
+        const result = aggregateForScatterChart(dataPoints, 'note.mood', 'Mood')
         expect(result.points).toHaveLength(2)
         expect(result.points.map((p) => p.y)).toEqual([5, 7])
         expect(result.filePaths).toEqual(['a.md', 'c.md'])
@@ -496,7 +486,7 @@ describe('missing values are gaps, not zeros (issue #92)', () => {
             createDataPoint('a.md', '2025-01-01', { numericValue: 5 }),
             createDataPoint('c.md', '2025-01-03', { numericValue: 7 })
         ]
-        const result = aggregateForScatterChart(dataPoints, 'note.mood' as BasesPropertyId, 'Mood')
+        const result = aggregateForScatterChart(dataPoints, 'note.mood', 'Mood')
         expect(result.points.map((p) => p.x)).toEqual([
             new Date('2025-01-01').getTime(),
             new Date('2025-01-03').getTime()
@@ -511,7 +501,7 @@ describe('missing values are gaps, not zeros (issue #92)', () => {
         ]
         const result = aggregateForBubbleChart(
             dataPoints,
-            'note.steps' as BasesPropertyId,
+            'note.steps',
             'Steps',
             TimeGranularity.Daily
         )
@@ -525,7 +515,7 @@ describe('missing values are gaps, not zeros (issue #92)', () => {
     test('aggregateForOverlayChart: a period with only empty entries stays null', () => {
         const propertiesData: OverlayPropertyData[] = [
             {
-                propertyId: 'note.sleep' as BasesPropertyId,
+                propertyId: 'note.sleep',
                 displayName: 'Sleep',
                 dataPoints: [
                     createDataPoint('a.md', '2025-01-01', { numericValue: 8 }),
@@ -533,7 +523,7 @@ describe('missing values are gaps, not zeros (issue #92)', () => {
                 ]
             },
             {
-                propertyId: 'note.mood' as BasesPropertyId,
+                propertyId: 'note.mood',
                 displayName: 'Mood',
                 dataPoints: [
                     createDataPoint('a.md', '2025-01-01', { numericValue: 3 }),

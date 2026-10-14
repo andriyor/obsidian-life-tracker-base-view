@@ -26,7 +26,6 @@ import {
     type TagCloudConfig,
     type VisualizationDataPoint,
     type VisualizationDateRange,
-    type ProgressConfig,
     type SettingsChangeInfo,
     type ResolvedDateAnchor,
     type DateAnchorConfig,
@@ -372,8 +371,7 @@ export class LifeTrackerView extends BasesView implements FileProvider {
     private getDateAnchorConfig(): DateAnchorConfig[] | undefined {
         // Stored as an opaque property id (branded string); narrow to string first.
         const dateAnchorProperty = getStringConfig(this.cfg, 'dateAnchorProperty') as
-            | BasesPropertyId
-            | undefined
+            BasesPropertyId | undefined
 
         if (!dateAnchorProperty) {
             // No custom property set, use default behavior
@@ -1850,7 +1848,7 @@ export class LifeTrackerView extends BasesView implements FileProvider {
                     this.app,
                     columnConfig.propertyId,
                     displayName,
-                    vizConfig as ProgressConfig
+                    vizConfig
                 )
 
             default:

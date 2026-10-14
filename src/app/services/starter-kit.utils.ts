@@ -142,7 +142,7 @@ export function applyStarterKitStructure(
         displayName: resolveDisplayName(definition, property),
         type: normalizeStarterKitType(property.type),
         allowedValues: Array.isArray(property.allowedValues)
-            ? (property.allowedValues.slice() as PropertyDefinition['allowedValues'])
+            ? property.allowedValues.slice()
             : property.allowedValues,
         numberRange: property.numberRange ? { ...property.numberRange } : null,
         defaultValue: Array.isArray(property.defaultValue)

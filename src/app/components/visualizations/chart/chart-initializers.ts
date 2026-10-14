@@ -10,7 +10,6 @@ import type {
     ChartClickElement,
     ChartDatasetConfig,
     ChartInstance,
-    ChartType,
     PieTooltipContext,
     PointTooltipContext
 } from '../../../types'
@@ -179,7 +178,7 @@ export function initPieChart(
                                 typeof parsed === 'number'
                                     ? parsed
                                     : typeof parsed === 'object' && parsed !== null && 'r' in parsed
-                                      ? (parsed as { r: number }).r
+                                      ? parsed.r
                                       : null
                             if (value === null || value === undefined) return ''
                             const total = pieChartData.values.reduce((a, b) => a + b, 0) || 1
@@ -417,7 +416,7 @@ export function initCartesianChart(
     const annotations = buildReferenceLineAnnotations(referenceLines, labelCount)
 
     return new Chart(ctx, {
-        type: chartJsType as ChartType,
+        type: chartJsType,
         data: {
             labels: chartData.labels,
             datasets

@@ -303,9 +303,10 @@ function detectValueType(
 
 ```typescript
 type BasesPropertyId = `${BasesPropertyType}.${string}`
-type BasesPropertyType = 'note' | 'formula' | 'file'
+type BasesPropertyType =
+    'note' | 'formula' | 'file'
 
-// Examples:
+    // Examples:
 ;('note.status') // Frontmatter property
 ;('note.tags') // Frontmatter tags
 ;('file.name') // File name

@@ -45,7 +45,7 @@ function makeApp(metadata: CachedMetadata | null = null): App {
 function makeMetadataWithTags(tags: string[]): CachedMetadata {
     return {
         frontmatter: { tags }
-    } as unknown as CachedMetadata
+    }
 }
 
 /**
