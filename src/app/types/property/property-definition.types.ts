@@ -222,7 +222,7 @@ export interface PropertyDefinition {
     valueEmojis?: EmojiMapping | null
     /**
      * Whether the property is listed in the quick-add panel (issue #122).
-     * Absent means the type default: shown for numbers and checkboxes.
+     * Opt-in: absent means not shown.
      */
     showInQuickAdd?: boolean
     /**

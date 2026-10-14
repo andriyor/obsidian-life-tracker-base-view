@@ -14,17 +14,16 @@ function makeDef(overrides: Partial<PropertyDefinition> = {}): PropertyDefinitio
 }
 
 describe('isShownInQuickAdd', () => {
-    test('defaults to numbers and checkboxes', () => {
-        expect(isShownInQuickAdd(makeDef({ type: 'number' }))).toBe(true)
-        expect(isShownInQuickAdd(makeDef({ type: 'checkbox' }))).toBe(true)
-        for (const type of ['text', 'date', 'datetime', 'list', 'tags'] as const) {
+    test('is opt-in: no property is shown by default, whatever its type', () => {
+        for (const type of ['number', 'checkbox', 'text', 'date', 'list'] as const) {
             expect(isShownInQuickAdd(makeDef({ type }))).toBe(false)
         }
     })
 
-    test('an explicit choice wins over the type default', () => {
-        expect(isShownInQuickAdd(makeDef({ type: 'number', showInQuickAdd: false }))).toBe(false)
+    test('shows a property once it is turned on', () => {
+        expect(isShownInQuickAdd(makeDef({ type: 'number', showInQuickAdd: true }))).toBe(true)
         expect(isShownInQuickAdd(makeDef({ type: 'text', showInQuickAdd: true }))).toBe(true)
+        expect(isShownInQuickAdd(makeDef({ type: 'number', showInQuickAdd: false }))).toBe(false)
     })
 })
 

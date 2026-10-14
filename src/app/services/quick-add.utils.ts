@@ -17,15 +17,12 @@ import { computeSteppedValue } from '../components/editing/number-step.utils'
 export const QUICK_ADD_PROTOCOL_ACTION = 'life-tracker-quick-add'
 
 /**
- * Whether a property is listed in the quick-add panel.
- *
- * An explicit choice wins. Otherwise numbers and checkboxes are shown: they are
- * the one-tap types (−/+, toggle) that frequent tracking is made of, while text,
- * dates and lists need typing and stay in the capture carousel.
+ * Whether a property is listed in the quick-add panel. Opt-in: a type-based
+ * default ("all numbers and checkboxes") put 71 rows in a real vault full of
+ * synced health metrics, which is the long form quick add exists to avoid.
  */
 export function isShownInQuickAdd(definition: PropertyDefinition): boolean {
-    if (typeof definition.showInQuickAdd === 'boolean') return definition.showInQuickAdd
-    return definition.type === 'number' || definition.type === 'checkbox'
+    return definition.showInQuickAdd === true
 }
 
 /**

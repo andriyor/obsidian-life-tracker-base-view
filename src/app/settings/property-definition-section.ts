@@ -369,7 +369,7 @@ export class PropertyDefinitionSection {
         new Setting(optionsContainer)
             .setName('Show in quick add')
             .setDesc(
-                'List this property in the quick-add panel. On by default for numbers and checkboxes.'
+                'List this property in the quick-add panel, for one-tap logging of things you track often (water, pushups, a habit checkbox).'
             )
             .addToggle((toggle) => {
                 toggle.setValue(isShownInQuickAdd(definition)).onChange(async (value) => {

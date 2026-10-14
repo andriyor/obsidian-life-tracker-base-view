@@ -274,7 +274,7 @@ When the "Capture properties" command is invoked from a custom base view (Life T
 
 - Number editors show −/+ buttons except in compact mode (grid cells), where the plain input is kept (issue #125)
 - Steps use the property's configured step, falling back to 1; results are clamped to the property's range and rounded to 6 decimals to avoid float drift
-- From an empty field the first tap lands on the range minimum for bounded properties, on +step for unbounded increments, and on 0 for unbounded decrements (never negative from empty)
+- From an empty field: a range with min > 0 lands on its minimum either way. Otherwise + gives one step up from 0 (clamped), and − gives the range minimum, or 0 when unbounded (never negative from empty for unbounded). A 0-based counter's first + therefore logs 1, not a 0 that looks like no-op (issue #122); a deliberate 0 is one − tap
 - The −/+ buttons commit immediately (one tap = one saved value); the buttons disable at the range bounds
 
 ## Capture Modal Swipe Navigation
@@ -352,7 +352,7 @@ When the "Capture properties" command is invoked from a custom base view (Life T
 - Issue #122. A panel (command "Quick add" + ribbon icon) listing one day's quick-add properties at once, each saved as it changes; no Next / Done. The capture carousel stays the place for a full check-in
 - Panel day: the open note's date when it is a daily note (back-filling in place), today otherwise. ‹ › step one day; a "Today" button appears on any other day
 - Day lookup is the Capture Today resolution (custom pattern beats built-in, then freshest), for any date. A missing note offers creation through the same opt-in, confirmed flow (`createMissingNotes`); nothing is created silently
-- `showInQuickAdd` on a property definition: explicit value wins; absent means shown for `number` and `checkbox` only (the one-tap types). The panel also respects note filtering (mappings)
+- `showInQuickAdd` on a property definition is **opt-in**: only `true` shows it; absent means hidden. A type default (all numbers and checkboxes) produced a 71-row panel in a real vault with synced health metrics. The panel also respects note filtering (mappings)
 - Panel saves follow Data Entry Safety: invalid values are not written, pending debounced edits are flushed before a day change or close
 - Link `obsidian://life-tracker-quick-add?property=<name>&<action>[&date=YYYY-MM-DD]` applies one action with no UI. Actions: `increment[=n]`, `decrement[=n]` (numbers), `toggle` (checkboxes), `set=<value>` (any non-list type). Exactly one action. A bare increment/decrement moves one step like the −/+ buttons; an explicit amount adds to the current value (empty = 0). Results are clamped to the range, then validated; invalid writes are refused with a notice
 - Links target `date` or today, **never the open note**: a home-screen shortcut must do the same thing whatever is open. `date` is parsed as local midnight and rolled-over dates (2026-02-31) are rejected

@@ -23,7 +23,7 @@ Before capturing data, define which properties to track:
 | Default     | Pre-filled value for new entries                                                                                       |
 | Constraints | Min/max/step for numbers, allowed values for text                                                                      |
 | Note filter | Folder, tag, or regex pattern to limit scope                                                                           |
-| Quick add   | Whether the property is listed in the quick-add panel (default: numbers and checkboxes)                                |
+| Quick add   | Whether the property is listed in the quick-add panel (off by default)                                                 |
 
 For **number** properties you can set a **min**, **max**, and optional **step**. The step controls the slider granularity (e.g. `1` for whole-number scores, `0.5` for half points); leave it empty to allow fine decimal values. If you fill in only one bound, the other is inferred automatically (min → `max = min + 100`, max → `min = 0`) and the inferred value is shown so there's no silent guessing.
 
@@ -140,8 +140,9 @@ no Next or Done.
   notes when capturing** is on.
 - **Open full capture** switches to the capture dialog for the same note.
 
-Which properties appear is set per property with **Show in quick add**. It is on
-by default for numbers and checkboxes, the one-tap types.
+Which properties appear is set per property with **Show in quick add**
+(Settings → Life Tracker → property definitions). It is off by default: pick
+the few things you log often, so the panel stays short.
 
 ### Quick-add links
 
@@ -214,8 +215,10 @@ Each property type has a specialized editor:
 The **number** editor shows **−** and **+** buttons on either side of the input
 for one-tap entry — ideal for counters like glasses of water or pushups. They
 step by the property's configured step (1 when none is set), stay inside the
-property's range (greying out at the bounds), and from an empty field the first
-tap lands on the range minimum for bounded properties. Compact number cells in
+property's range (greying out at the bounds). From an empty field, **+** starts
+counting at one step (a 0-30 water counter goes to 1) and **−** sets the lowest
+value (0), so logging "none today" is one tap. A range that starts above 0, like
+a 1-5 mood, starts at its minimum either way. Compact number cells in
 the Life Tracking Grid keep the plain input.
 
 The **date** and **datetime** editors include a **Today** button that fills in the current date (and time) in one click — handy since native date fields never pre-fill.

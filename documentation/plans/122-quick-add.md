@@ -25,8 +25,11 @@ Three entry points, one write path (`FrontmatterService`):
 - Link: one action per link (`increment[=n]`, `decrement[=n]`, `toggle`,
   `set=<value>`), notice on success or refusal. Built for phone home-screen
   shortcuts: truly one tap.
-- `showInQuickAdd` per property definition; absent = numbers and checkboxes.
-  Life-Tracker-owned, so it survives Starter Kit syncs.
+- `showInQuickAdd` per property definition, opt-in (absent = hidden): a type
+  default listed 71 properties in the reference vault. Life-Tracker-owned, so it
+  survives Starter Kit syncs.
+- −/+ from empty on a range starting at 0: + now gives one step instead of 0,
+  which looked like a no-op on counters (live test finding).
 - Daily note lookup and creation extracted from the Capture today command into
   `src/app/commands/daily-note.ts`, generalized from today to any date.
 
