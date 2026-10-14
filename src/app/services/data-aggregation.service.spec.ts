@@ -120,8 +120,16 @@ describe('DataAggregationService.createDataPoints', () => {
     })
 
     test('missing value stays null when valueMapping is configured', () => {
-        // Bases hands a missing property over as a NullValue, which stringifies to "null"
-        const nullValue = { toString: () => 'null' }
+        // Bases hands a missing property over as a NullValue, whose toString()
+        // (on its prototype, like every Bases Value) returns "null". A plain
+        // object with an own toString would be skipped by safeToString and never
+        // reach the "null" check
+        class FakeNullValue {
+            toString(): string {
+                return 'null'
+            }
+        }
+        const nullValue = new FakeNullValue()
         const entries = [
             makeEntry('a.md', null),
             makeEntry('b.md', ''),

@@ -2,6 +2,7 @@ import { describe, expect, test } from 'bun:test'
 import {
     extractNumber,
     extractNumberWithMapping,
+    isBlankValue,
     extractBoolean,
     extractDate,
     extractList,
@@ -379,6 +380,24 @@ describe('value-extractors', () => {
             expect(extractPropertyName('note.tags')).toBe('tags')
             expect(extractPropertyName('file.name')).toBe('name')
             expect(extractPropertyName('file.path')).toBe('path')
+        })
+    })
+
+    describe('isBlankValue', () => {
+        test('treats null, undefined, empty and whitespace as blank', () => {
+            for (const value of [null, undefined, '', '   ']) {
+                expect(isBlankValue(value)).toBe(true)
+            }
+        })
+
+        test('treats Bases\' NullValue (stringifies to "null") as blank', () => {
+            expect(isBlankValue(new MockValue('null'))).toBe(true)
+        })
+
+        test('treats real values as present, including 0 and false', () => {
+            for (const value of ['mild', 0, false, new MockValue('high')]) {
+                expect(isBlankValue(value)).toBe(false)
+            }
         })
     })
 })
